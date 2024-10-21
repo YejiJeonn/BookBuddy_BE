@@ -16,10 +16,20 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String user_id;
-    private String pw;
-    private String username;
-    private String name;
-    private String email;
-    private Date birth;
+    private String userId;     // 아이디
+    private String pw;          // 비밀번호
+    private String nickName;     // 닉네임
+    private String name;        // 이름
+    private String email;       // 이메일
+    private Date birth;         // 생년월일
+
+    // 비밀번호 암호화
+//    public User toEntity(String encodedPassword) {
+//        return User.builder()
+//                .loginId(this.loginId)
+//                .password(encodedPassword)
+//                .nickname(this.nickname)
+//                .role(UserRole.USER)
+//                .build();
+//    }
 }
