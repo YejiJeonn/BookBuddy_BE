@@ -1,4 +1,4 @@
-package com.project.test.dto;
+package com.project.backend.dto;
 
 import lombok.Getter;
 import java.util.Date;
