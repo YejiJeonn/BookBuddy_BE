@@ -36,6 +36,10 @@ public class UserService {
 
         User user = userRepository.findByUserId(dto.getUserId()).orElse(null);
 
+        if(user == null){
+            return false;
+        }
+
         return user != null && user.getPw().equals(dto.getPassword());
     }
 

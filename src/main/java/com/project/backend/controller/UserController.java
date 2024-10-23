@@ -32,12 +32,13 @@ public class UserController {
     public ResponseEntity<String> login(@RequestBody LoginUserRequestDto request) {
 
         boolean loginResult = userService.loginUser(request);
+        if(!loginResult){
+            return ResponseEntity.ok("failed login");
+        }
+
         String name = userService.infoUser(request).getName();
 
-        if(loginResult) {
-            return ResponseEntity.ok(name + " 님 환영합니다.");
-        }
-        return ResponseEntity.ok("failed login");
+        return ResponseEntity.ok(name + " 님 환영합니다.");
     }
 
     // 아이디 중복 확인
