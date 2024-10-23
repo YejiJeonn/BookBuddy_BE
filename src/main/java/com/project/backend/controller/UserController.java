@@ -36,9 +36,8 @@ public class UserController {
             return ResponseEntity.ok("failed login");
         }
 
-        String name = userService.infoUser(request).getName();
-
-        return ResponseEntity.ok(name + " 님 환영합니다.");
+        // 로그인 성공일 경우 이용자의 이름을 가져와서 문구 출력
+        return ResponseEntity.ok(userService.userName(request) + " 님 환영합니다.");
     }
 
     // 아이디 중복 확인

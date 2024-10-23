@@ -5,6 +5,7 @@ import com.project.backend.dto.LoginUserRequestDto;
 import com.project.backend.entity.User;
 import com.project.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 // 비즈니스 로직을 처리하는 계층
@@ -14,12 +15,15 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder; // 비밀번호 암호화를 위한 주입
+
     // 회원가입 시 정보 저장 로직
     public void saveUser(CreateUserRequestDto dto) {
 
         User user = new User();
         user.setUserId(dto.getUserId());
-        user.setPw(dto.getPassword());
+        user.setPw(passwordEncoder.encode(dto.getPassword())); // 비밀번호 암호화
         user.setName(dto.getName());
         user.setBirth(dto.getBirth());
         user.setEmail(dto.getEmail());
@@ -40,14 +44,16 @@ public class UserService {
             return false;
         }
 
-        return user != null && user.getPw().equals(dto.getPassword());
+//        return user != null && user.getPw().equals(dto.getPassword());
+        // 암호화된 비밀번호 검증
+        return passwordEncoder.matches(dto.getPassword(), user.getPw());
     }
 
     // 정보 불러오기
-    public User infoUser(LoginUserRequestDto dto) {
-        User user = userRepository.findByUserId(dto.getUserId()).orElse(null);
+    public String userName(LoginUserRequestDto dto) {
 
-        return user;
+        // 이용자의 정보를 가져온 후 이름을 반환
+        return userRepository.findByUserId(dto.getUserId()).orElse(null).getName();
     }
 
     // 회원가입 시 아이디 중복 확인 로직
