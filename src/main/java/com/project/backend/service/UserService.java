@@ -57,7 +57,7 @@ public class UserService {
     }
 
     // 회원가입 시 아이디 중복 확인 로직
-    public boolean checkIdDuplicate(String userId){
+    public boolean isUserIdDuplicate(String userId) {
 
         return userRepository.existsByUserId(userId);
     }

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 // 재료만 받음 -> service에서 가공 -> repo 가공된 정보 저장
@@ -17,7 +18,7 @@ public class UserController {
     public UserService userService;
 
     // 회원가입
-    @PostMapping("/signup")
+    @PostMapping("/users/signup")
     // ResponseEntity<반환하고싶은 타입>
     // -> 요청한 자에게 반환하고 싶은 값 (String일 경우 요청자에게 String값만 반환됨)
     public ResponseEntity<String> signup(@RequestBody CreateUserRequestDto request) {
@@ -28,7 +29,7 @@ public class UserController {
     }
 
     // 로그인
-    @PostMapping("/login")
+    @PostMapping("/users/login")
     public ResponseEntity<String> login(@RequestBody LoginUserRequestDto request) {
 
         boolean loginResult = userService.loginUser(request);
@@ -41,6 +42,13 @@ public class UserController {
     }
 
     // 아이디 중복 확인
+    @PostMapping("/users/check-id")
+    public ResponseEntity<Boolean>checkDuplicate(@RequestParam String userId) {
+
+        boolean result = userService.isUserIdDuplicate(userId);
+
+        return ResponseEntity.ok(result);
+    }
 
     // 닉네임 중복 확인
 
