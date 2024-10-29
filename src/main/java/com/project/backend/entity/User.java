@@ -17,7 +17,7 @@ public class User {
     private Long id;
 
     private String userId;     // 아이디
-    private String pw;          // 비밀번호
+    private String password;          // 비밀번호
     private String nickName;     // 닉네임
     private String name;        // 이름
     private String email;       // 이메일

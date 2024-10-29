@@ -2,8 +2,10 @@ package com.project.backend.controller;
 
 import com.project.backend.dto.CreateUserRequestDto;
 import com.project.backend.dto.LoginUserRequestDto;
+import com.project.backend.repository.UserRepository;
 import com.project.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +18,8 @@ public class UserController {
 
     @Autowired
     public UserService userService;
+    @Autowired
+    private UserRepository userRepository;
 
     // 회원가입
     @PostMapping("/users/signup")
@@ -32,18 +36,20 @@ public class UserController {
     @PostMapping("/users/login")
     public ResponseEntity<String> login(@RequestBody LoginUserRequestDto request) {
 
-        boolean loginResult = userService.loginUser(request);
-        if(!loginResult){
-            return ResponseEntity.ok("failed login");
+        String userName = userService.loginUser(request);
+
+        if(userName == null){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인 실패");
         }
 
+
         // 로그인 성공일 경우 이용자의 이름을 가져와서 문구 출력
-        return ResponseEntity.ok(userService.userName(request) + " 님 환영합니다.");
+        return ResponseEntity.ok(userName + " 님 환영합니다.");
     }
 
     // 아이디 중복 확인
     @PostMapping("/users/check-id")
-    public ResponseEntity<Boolean>checkDuplicate(@RequestParam String userId) {
+    public ResponseEntity<Boolean>checkIdDuplicate(@RequestParam String userId) {
 
         boolean result = userService.isUserIdDuplicate(userId);
 
@@ -51,6 +57,11 @@ public class UserController {
     }
 
     // 닉네임 중복 확인
+    @PostMapping("/users/check-nickname")
+    public ResponseEntity<Boolean>checkNickNameDuplicate(@RequestParam String nickName) {
 
-    // 비밀번호 확인
+        boolean result = userService.existsByNickName(nickName);
+
+        return ResponseEntity.ok(result);
+    }
 }

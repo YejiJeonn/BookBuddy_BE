@@ -22,6 +22,17 @@ public class SecurityConfiguration {
         // http.headers((headers) -> headers.disable()) : HTTP 응답 헤더 설정 비활성화 = Spring Security가 기본적으로 추가하는 보안헤더 적용 막음
         http.csrf((csrf) -> csrf.disable()).cors((c) -> c.disable()).headers((headers) -> headers.disable());
 
+        // 특정 경로에 인증 없이 접근 허용
+        // 특정 경로에 인증 없이 접근 허용
+        http.authorizeHttpRequests((requests) -> requests
+                        .requestMatchers("/", "/signup", "/login").permitAll() // 경로 허용 설정
+                        .anyRequest().authenticated() // 그 외 경로는 인증 필요
+                )
+                .formLogin((form) -> form
+                        .loginPage("/login") // 커스텀 로그인 페이지 설정
+                        .permitAll() // 로그인 페이지 접근 허용
+                );
+
         return http.build();
     }
 
