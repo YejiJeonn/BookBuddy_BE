@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -20,24 +21,21 @@ public class SecurityConfiguration {
         // http.csrf((csrf) -> csrf.disable()) : CSRF 보호 기능 비활성화
         // http.cors((c) -> c.disable()) : CORS 설정 비활성화 = 기본적인 출처 간 제한이 해제됨 (클라이언트 - 서버 간 서로 다른 출처에서 요청을 주고받을 때 발생하는 보안문제 해결을 위해 사용됨)
         // http.headers((headers) -> headers.disable()) : HTTP 응답 헤더 설정 비활성화 = Spring Security가 기본적으로 추가하는 보안헤더 적용 막음
-        http.csrf((csrf) -> csrf.disable()).cors((c) -> c.disable()).headers((headers) -> headers.disable());
+        http.csrf(AbstractHttpConfigurer::disable)
+                .cors(AbstractHttpConfigurer::disable)
+                .headers(AbstractHttpConfigurer::disable);
 
         // 특정 경로에 인증 없이 접근 허용
-        // 특정 경로에 인증 없이 접근 허용
         http.authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/", "/signup", "/login").permitAll() // 경로 허용 설정
-                        .anyRequest().authenticated() // 그 외 경로는 인증 필요
-                )
-                .formLogin((form) -> form
-                        .loginPage("/login") // 커스텀 로그인 페이지 설정
-                        .permitAll() // 로그인 페이지 접근 허용
-                );
+                .requestMatchers("/", "/users/signup", "/users/login").permitAll() // 경로 허용 설정
+                .anyRequest().authenticated() // 그 외 경로는 인증 필요
+        );
 
         return http.build();
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 }
