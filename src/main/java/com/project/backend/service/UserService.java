@@ -27,7 +27,7 @@ public class UserService {
         user.setName(dto.getName());
         user.setBirth(dto.getBirth());
         user.setEmail(dto.getEmail());
-        user.setNickName(dto.getNickName());
+        user.setNickname(dto.getNickName());
 
         userRepository.save(user);
         //userRepository.save(user.toEntity(encoder.encode(user.getPw())));
@@ -40,7 +40,7 @@ public class UserService {
 
         User user = userRepository.findByUserId(dto.getUserId()).orElse(null);
 
-        if(user == null || !passwordEncoder.matches(dto.getPassword(), user.getPassword())) {
+        if (user == null || !passwordEncoder.matches(dto.getPassword(), user.getPassword())) {
             return null;
         }
 
@@ -49,13 +49,6 @@ public class UserService {
         return user.getName();
     }
 
-//    // 정보 불러오기
-//    public String userName(LoginUserRequestDto dto) {
-//
-//        // 이용자의 정보를 가져온 후 이름을 반환
-//        return userRepository.findByUserId(dto.getUserId()).orElse(null).getName();
-//    }
-
     // 회원가입 시 아이디 중복 확인 로직
     public boolean isUserIdDuplicate(String userId) {
 
@@ -63,18 +56,18 @@ public class UserService {
     }
 
     // 회원가입 시 닉네임 중복 확인 로직
-    public boolean checkNickNameDuplicate(String nickName){
+    public boolean checkNickNameDuplicate(String nickName) {
 
-        return userRepository.existsByNickName(nickName);
+        return userRepository.existsByNickname(nickName);
     }
 
     // 회원가입 시 입력한 비밀번호 확인 로직
-    public boolean checkPw(String pw, String checkPassword){
+    public boolean checkPw(String pw, String checkPassword) {
 
         return pw.equals(checkPassword);
     }
 
     public boolean existsByNickName(String nickName) {
-        return userRepository.existsByNickName(nickName);
+        return userRepository.existsByNickname(nickName);
     }
 }

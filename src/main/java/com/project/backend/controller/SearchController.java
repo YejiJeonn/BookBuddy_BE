@@ -1,7 +1,7 @@
 package com.project.backend.controller;
 
 import com.project.backend.service.SearchService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,15 +10,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api")
 public class SearchController {
 
-    @Autowired
-    private SearchService searchService;
+    private final SearchService searchService;
 
     @GetMapping("/search")
-    public ResponseEntity<?> searchBooks(@RequestParam String query){
-        try{
+    public ResponseEntity<?> searchBooks(@RequestParam String query) {
+        try {
             String result = searchService.searchBooks(query);
             return ResponseEntity.ok(result);
         } catch (Exception e) {

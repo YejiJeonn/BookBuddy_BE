@@ -25,9 +25,10 @@ public class SecurityConfiguration {
                 .cors(AbstractHttpConfigurer::disable)
                 .headers(AbstractHttpConfigurer::disable);
 
+
         // 특정 경로에 인증 없이 접근 허용
         http.authorizeHttpRequests((requests) -> requests
-                .requestMatchers("/", "/users/signup", "/users/login").permitAll() // 경로 허용 설정
+                .requestMatchers("/", "/users/signup", "/users/login", "/api/aladin-books").permitAll() // 경로 허용 설정
                 .anyRequest().authenticated() // 그 외 경로는 인증 필요
         );
 

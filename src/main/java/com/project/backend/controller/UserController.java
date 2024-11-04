@@ -4,7 +4,7 @@ import com.project.backend.dto.CreateUserRequestDto;
 import com.project.backend.dto.LoginUserRequestDto;
 import com.project.backend.repository.UserRepository;
 import com.project.backend.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 // 재료만 받음 -> service에서 가공 -> repo 가공된 정보 저장
 @RestController     // json만 반환, rest 규약을 잘 지킨 api
+@RequiredArgsConstructor
 public class UserController {
 
-    @Autowired
-    public UserService userService;
-    @Autowired
-    private UserRepository userRepository;
+    public final UserService userService;
+
+    private final UserRepository userRepository;
 
     // 회원가입
     @PostMapping("/users/signup")
@@ -38,7 +38,7 @@ public class UserController {
 
         String userName = userService.loginUser(request);
 
-        if(userName == null){
+        if (userName == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인 실패");
         }
 
@@ -49,7 +49,7 @@ public class UserController {
 
     // 아이디 중복 확인
     @PostMapping("/users/check-id")
-    public ResponseEntity<Boolean>checkIdDuplicate(@RequestParam String userId) {
+    public ResponseEntity<Boolean> checkIdDuplicate(@RequestParam String userId) {
 
         boolean result = userService.isUserIdDuplicate(userId);
 
@@ -58,7 +58,7 @@ public class UserController {
 
     // 닉네임 중복 확인
     @PostMapping("/users/check-nickname")
-    public ResponseEntity<Boolean>checkNickNameDuplicate(@RequestParam String nickName) {
+    public ResponseEntity<Boolean> checkNickNameDuplicate(@RequestParam String nickName) {
 
         boolean result = userService.existsByNickName(nickName);
 
