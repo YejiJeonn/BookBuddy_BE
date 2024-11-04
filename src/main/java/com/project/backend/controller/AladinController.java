@@ -17,11 +17,14 @@ public class AladinController {
     @GetMapping("/aladin-books")
     public String getAladinProducts(
             @RequestParam String queryType,
-            @RequestParam int maxResults) {
+            @RequestParam int maxResults,
+            @RequestParam int start) {
 
         // AladinService를 호출하여 결과를 얻음
 //        String response = aladinService.searchProducts(queryType, maxResults);
 
-        return aladinService.searchProducts(queryType, maxResults);
+        return aladinService.searchProducts(queryType, maxResults, start);
     }
+
+
 }

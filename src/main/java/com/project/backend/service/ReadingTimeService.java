@@ -15,7 +15,9 @@ public class ReadingTimeService {
     public void saveReadingTime(ReadingTimeRequestDto dto) {
         ReadingTime readingTime = new ReadingTime();
 
-        readingTime.calculateTotalTime(dto.getStartTime(), dto.getEndTime());
+        readingTime.setTimes(dto.getStartTime(), dto.getEndTime(), dto.getTotalTime());
+
+//        readingTime.calculateTotalTime(dto.getStartTime(), dto.getEndTime());
 
         readingTimeRepository.save(readingTime);
     }

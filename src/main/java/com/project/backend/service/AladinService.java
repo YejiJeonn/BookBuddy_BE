@@ -16,10 +16,10 @@ public class AladinService {
     private final RestTemplate restTemplate = new RestTemplate();
 
 
-    public String searchProducts(String queryType, Integer maxResults) {
+    public String searchProducts(String queryType, Integer maxResults, Integer start) {
 
-        String url = String.format("http://www.aladin.co.kr/ttb/api/ItemList.aspx?ttbkey=%s&QueryType=%s&MaxResults=%d&Start=1&SearchTarget=Book&Cover=Big&Output=JS&Version=20131101",
-                apiKey, queryType, maxResults);
+        String url = String.format("http://www.aladin.co.kr/ttb/api/ItemList.aspx?ttbkey=%s&QueryType=%s&MaxResults=%d&Start=%d&SearchTarget=Book&Cover=Big&Output=JS&Version=20131101",
+                apiKey, queryType, maxResults, start);
 
         // 알라딘 API에 GET 요청을 보냄
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);

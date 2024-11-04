@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class ReadingTimeController {
 
-    private final ReadingTimeService timerService;
+    private final ReadingTimeService readingTimeService;
 
     @PostMapping("/save-reading-time")
     public ResponseEntity<String> saveTime(@RequestBody ReadingTimeRequestDto request) {
         // request에서 유저 ID와 독서 시간을 가져와서 저장
-        timerService.saveReadingTime(request);
+        readingTimeService.saveReadingTime(request);
 
         return ResponseEntity.ok("독서 기록 저장 성공");
     }
