@@ -8,22 +8,20 @@ import org.springframework.web.client.RestTemplate;
 
 @Service
 @RequiredArgsConstructor
-public class AladinService {
+public class BookDetailService {
 
     @Value("${aladin.api.key}") // application.properties 파일에 저장한 API 키를 불러옴
     private String apiKey;
 
     private final RestTemplate restTemplate = new RestTemplate();
 
-    public String searchProducts(String queryType, Integer maxResults, Integer start) {
+    public String searchBookDetail(String itemId) {
 
-        String url = String.format("http://www.aladin.co.kr/ttb/api/ItemList.aspx?ttbkey=%s&QueryType=%s&MaxResults=%d&Start=%d&SearchTarget=Book&Cover=Big&Output=JS&Version=20131101",
-                apiKey, queryType, maxResults, start);
-
-        // 알라딘 API에 GET 요청을 보냄
+        String url = String.format("http://www.aladin.co.kr/ttb/api/ItemLookUp.aspx?ttbkey=%s&itemIdType=ISBN13&ItemId=%s&Cover=Big&output=JS&Version=20131101&OptResult=ebookList,usedList,reviewList",
+                apiKey, itemId);
+        System.out.println(url);
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 
-        // JSON 형태의 결과 반환
         return response.getBody();
     }
 }

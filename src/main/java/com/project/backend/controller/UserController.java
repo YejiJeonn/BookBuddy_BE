@@ -5,7 +5,6 @@ import com.project.backend.dto.LoginUserRequestDto;
 import com.project.backend.repository.UserRepository;
 import com.project.backend.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,16 +34,10 @@ public class UserController {
     // 로그인
     @PostMapping("/users/login")
     public ResponseEntity<String> login(@RequestBody LoginUserRequestDto request) {
-
-        String userName = userService.loginUser(request);
-
-        if (userName == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인 실패");
-        }
-
+        String token = userService.loginUser(request);
 
         // 로그인 성공일 경우 이용자의 이름을 가져와서 문구 출력
-        return ResponseEntity.ok(userName + " 님 환영합니다.");
+        return ResponseEntity.ok(token);
     }
 
     // 아이디 중복 확인

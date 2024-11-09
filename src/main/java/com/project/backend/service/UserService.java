@@ -4,6 +4,7 @@ import com.project.backend.dto.CreateUserRequestDto;
 import com.project.backend.dto.LoginUserRequestDto;
 import com.project.backend.entity.User;
 import com.project.backend.repository.UserRepository;
+import com.project.backend.security.TokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,9 @@ public class UserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder; // 비밀번호 암호화를 위한 주입
+
+    @Autowired
+    private TokenProvider tokenProvider;
 
     // 회원가입 시 정보 저장 로직
     public void saveUser(CreateUserRequestDto dto) {
@@ -37,16 +41,13 @@ public class UserService {
 
     // 로그인 시 기존 정보 확인 로직
     public String loginUser(LoginUserRequestDto dto) {
-
         User user = userRepository.findByUserId(dto.getUserId()).orElse(null);
 
         if (user == null || !passwordEncoder.matches(dto.getPassword(), user.getPassword())) {
-            return null;
+            throw new RuntimeException("로그인 실패");
         }
 
-//        return user != null && user.getPw().equals(dto.getPassword());
-        // 암호화된 비밀번호 검증
-        return user.getName();
+        return tokenProvider.createToken(user.getId());
     }
 
     // 회원가입 시 아이디 중복 확인 로직
