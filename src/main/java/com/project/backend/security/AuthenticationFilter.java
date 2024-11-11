@@ -26,6 +26,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 
     private final TokenProvider tokenProvider;
 
+    // HTTP 요청을 가로채고 토큰을 확인하는 역할
     @Override
     protected void doFilterInternal(
             @NonNull HttpServletRequest request,
@@ -39,6 +40,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
             accessToken = accessToken.substring(7);
         }
 
+        // 토큰에서 사용자 id 추출
         Long id = tokenProvider.getSubject(accessToken);
 
         // 토큰이 유효하면 Authentication 객체 생성
@@ -50,6 +52,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
 
+        // 다음 필터 호출
         filterChain.doFilter(request, response);
     }
 }

@@ -39,8 +39,10 @@ public class SecurityConfiguration {
                         .requestMatchers(
                                 "/error",
                                 "/users/login",
+                                "/users/info",
                                 "/api/aladin-books",
-                                "/api/book-detail"
+                                "/api/book-detail",
+                                "/api/search"
                         ).permitAll() // 경로 허용 설정
                         .requestMatchers(
                                 "/api/user/admin"
