@@ -49,7 +49,6 @@ public class UserController {
 //        System.out.println("token: " + token);
         try {
             Long id = tokenProvider.getSubject(token.substring(7));
-            System.out.println("id: " + id);
 
             // ID가 null인지 확인하기 위한 로그 추가
             if (id == null) {
