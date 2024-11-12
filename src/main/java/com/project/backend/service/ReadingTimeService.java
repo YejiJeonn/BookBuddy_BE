@@ -12,13 +12,33 @@ public class ReadingTimeService {
 
     private final ReadingTimeRepository readingTimeRepository;
 
-    public void saveReadingTime(ReadingTimeRequestDto dto) {
+//    // 사용자 테이블 유무 확인
+//    public boolean isUserTableExists(Long id) {
+//        return readingTimeRepository.existsById(id);
+//    }
+//
+//    // 사용자 테이블 생성
+//    public void createUserTable(Long id) {
+//        readingTimeRepository.createUserTable(id);
+//    }
+
+    // 읽기 시간을 저장
+    public void saveReadingTime(Long id, String userId, ReadingTimeRequestDto request) {
         ReadingTime readingTime = new ReadingTime();
 
-        readingTime.setTimes(dto.getStartTime(), dto.getEndTime(), dto.getTotalTime());
-
-//        readingTime.calculateTotalTime(dto.getStartTime(), dto.getEndTime());
+        readingTime.setProperty(id, userId, request.getBookTitle(), request.getBookIsbn());
+        readingTime.calculateTotalTime(request.getStartTime(), request.getEndTime());
 
         readingTimeRepository.save(readingTime);
     }
+
+//    public void saveReadingTime(ReadingTimeRequestDto dto) {
+//        ReadingTime readingTime = new ReadingTime();
+//
+//        readingTime.setTimes(dto.getStartTime(), dto.getEndTime(), dto.getTotalTime());
+//
+////        readingTime.calculateTotalTime(dto.getStartTime(), dto.getEndTime());
+//
+//        readingTimeRepository.save(readingTime);
+//    }
 }

@@ -1,6 +1,7 @@
 package com.project.backend.service;
 
 import com.project.backend.dto.CreateUserRequestDto;
+import com.project.backend.dto.LoginResponseDto;
 import com.project.backend.dto.LoginUserRequestDto;
 import com.project.backend.entity.User;
 import com.project.backend.repository.UserRepository;
@@ -40,14 +41,17 @@ public class UserService {
     }
 
     // 로그인 시 기존 정보 확인 로직
-    public String loginUser(LoginUserRequestDto dto) {
+    public LoginResponseDto loginUser(LoginUserRequestDto dto) {
         User user = userRepository.findByUserId(dto.getUserId()).orElse(null);
 
         if (user == null || !passwordEncoder.matches(dto.getPassword(), user.getPassword())) {
             throw new RuntimeException("로그인 실패");
         }
 
-        return tokenProvider.createToken(user.getId());
+        String token = tokenProvider.createToken(user.getId());
+        LoginResponseDto result = new LoginResponseDto(user.getNickname(), token);
+
+        return result;
     }
 
     // 회원가입 시 아이디 중복 확인 로직

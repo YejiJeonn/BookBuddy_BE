@@ -1,7 +1,9 @@
 package com.project.backend.controller;
 
 import com.project.backend.dto.CreateUserRequestDto;
+import com.project.backend.dto.LoginResponseDto;
 import com.project.backend.dto.LoginUserRequestDto;
+import com.project.backend.entity.User;
 import com.project.backend.repository.UserRepository;
 import com.project.backend.security.TokenProvider;
 import com.project.backend.service.UserService;
@@ -34,21 +36,16 @@ public class UserController {
 
     // 로그인
     @PostMapping("/users/login")
-    public ResponseEntity<String> login(@RequestBody LoginUserRequestDto request) {
-        String token = userService.loginUser(request);
-//        System.out.println("***" + request.getUserId() + " " + request.getPassword());
-
-//        LoginUserRequestDto request = new LoginUserRequestDto(userId, password);
-//        System.out.println("userId: " + userId + " password: " + password);
-//        String token = userService.loginUser(request);
+    public ResponseEntity<LoginResponseDto> login(@RequestBody LoginUserRequestDto request) {
+        LoginResponseDto result = userService.loginUser(request);
 
         // 로그인 성공일 경우 이용자의 이름을 가져와서 문구 출력
-        return ResponseEntity.ok(token);
+        return ResponseEntity.ok(result);
     }
 
     // 사용자 정보 반환 (토큰 관련 로직)
     @GetMapping("/users/info")
-    public ResponseEntity<LoginUserRequestDto> getCurrentUser(@RequestHeader("Authorization") String token) {
+    public ResponseEntity<User> getCurrentUser(@RequestHeader("Authorization") String token) {
 //        System.out.println("token: " + token);
         try {
             Long id = tokenProvider.getSubject(token.substring(7));
@@ -59,7 +56,7 @@ public class UserController {
                 throw new IllegalArgumentException("The extracted user ID is null.");
             }
 
-            LoginUserRequestDto user = userRepository.findUserById(id);
+            User user = userRepository.findUserById(id);
             return ResponseEntity.ok(user);
         } catch (Exception e) {
             // 오류 로그 출력
