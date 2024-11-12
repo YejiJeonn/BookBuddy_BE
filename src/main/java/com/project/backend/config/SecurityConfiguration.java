@@ -41,9 +41,7 @@ public class SecurityConfiguration {
                                 "/users/login",
                                 "/users/info",
                                 "/api/aladin-books",
-                                "/api/book-detail",
-                                "/api/search",
-                                "/api/save-reading-time"
+                                "/api/**"
                         ).permitAll() // 경로 허용 설정
                         .requestMatchers(
                                 "/api/user/admin"

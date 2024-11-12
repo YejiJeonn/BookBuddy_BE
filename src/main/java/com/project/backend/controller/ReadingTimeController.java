@@ -1,7 +1,9 @@
 package com.project.backend.controller;
 
 import com.project.backend.dto.ReadingTimeRequestDto;
+import com.project.backend.entity.ReadingTime;
 import com.project.backend.entity.User;
+import com.project.backend.repository.ReadingTimeRepository;
 import com.project.backend.repository.UserRepository;
 import com.project.backend.security.TokenProvider;
 import com.project.backend.service.ReadingTimeService;
@@ -9,10 +11,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -22,6 +23,7 @@ public class ReadingTimeController {
     private final ReadingTimeService readingTimeService;
     private final TokenProvider tokenProvider;
     private final UserRepository userRepository;
+    private final ReadingTimeRepository readingTimeRepository;
 
     @PostMapping("/save-reading-time")
     public ResponseEntity<?> saveTime(@RequestBody ReadingTimeRequestDto request, HttpServletRequest httpServletRequest) {
@@ -55,5 +57,10 @@ public class ReadingTimeController {
 //        return ResponseEntity.ok("독서 기록 저장 성공");
 
         return new ResponseEntity<>("시간이 저장되었습니다.", HttpStatus.OK);
+    }
+
+    @GetMapping("/reading-times")
+    public List<ReadingTime> getAllReadingTimes() {
+        return readingTimeRepository.findAll();
     }
 }
