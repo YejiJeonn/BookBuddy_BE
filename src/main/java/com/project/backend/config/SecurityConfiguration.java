@@ -39,6 +39,9 @@ public class SecurityConfiguration {
                         .requestMatchers(
                                 "/error",
                                 "/users/login",
+                                "/users/signup",
+                                "/users/check-id",
+                                "/users/check-nickname",
                                 "/users/info",
                                 "/api/aladin-books",
                                 "/api/**"
