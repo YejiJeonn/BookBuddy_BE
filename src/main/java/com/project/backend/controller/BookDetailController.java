@@ -16,7 +16,7 @@ public class BookDetailController {
 
     @GetMapping("/book-detail")
     public String getBookDetail(@RequestParam(value = "itemId") String itemId) {
-        System.out.println("***" + itemId);
+//        System.out.println("***" + itemId);
         return bookDetailService.searchBookDetail(itemId);
     }
 }

@@ -19,7 +19,7 @@ public class BookDetailService {
 
         String url = String.format("http://www.aladin.co.kr/ttb/api/ItemLookUp.aspx?ttbkey=%s&itemIdType=ISBN13&ItemId=%s&Cover=Big&output=JS&Version=20131101&OptResult=ebookList,usedList,reviewList",
                 apiKey, itemId);
-        System.out.println(url);
+//        System.out.println(url);
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 
         return response.getBody();

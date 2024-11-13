@@ -42,6 +42,9 @@ public class ReadingTime {
     @Column(name = "book_isbn")
     private String bookIsbn;
 
+    @Column(name = "book_cover")
+    private String bookCover;
+
 
 //    public void setTimes(LocalDateTime startTime, LocalDateTime endTime, long totalTime) {
 //        this.startTime = startTime;
@@ -49,11 +52,12 @@ public class ReadingTime {
 //        this.totalTime = totalTime;
 //    }
 
-    public void setProperty(Long num, String userId, String bookTitle, String bookIsbn) {
+    public void setProperty(Long num, String userId, String bookTitle, String bookIsbn, String bookCover) {
         this.num = num;
         this.userId = userId;
         this.bookTitle = bookTitle;
         this.bookIsbn = bookIsbn;
+        this.bookCover = bookCover;
     }
 
     public void calculateTotalTime(LocalDateTime startTime, LocalDateTime endTime) {

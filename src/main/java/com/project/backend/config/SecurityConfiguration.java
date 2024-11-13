@@ -44,6 +44,7 @@ public class SecurityConfiguration {
                                 "/users/check-nickname",
                                 "/users/info",
                                 "/api/aladin-books",
+                                "api/book-detail",
                                 "/api/**"
                         ).permitAll() // 경로 허용 설정
                         .requestMatchers(

@@ -26,7 +26,7 @@ public class ReadingTimeService {
     public void saveReadingTime(Long id, String userId, ReadingTimeRequestDto request) {
         ReadingTime readingTime = new ReadingTime();
 
-        readingTime.setProperty(id, userId, request.getBookTitle(), request.getBookIsbn());
+        readingTime.setProperty(id, userId, request.getBookTitle(), request.getBookIsbn(), request.getBookCover());
         readingTime.calculateTotalTime(request.getStartTime(), request.getEndTime());
 
         readingTimeRepository.save(readingTime);
