@@ -38,6 +38,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers(
                                 "/error",
+                                "/profile",
                                 "/users/login",
                                 "/users/signup",
                                 "/users/check-id",

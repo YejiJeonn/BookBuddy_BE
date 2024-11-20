@@ -85,9 +85,9 @@ public class UserController {
 
     // 닉네임 중복 확인
     @PostMapping("/users/check-nickname")
-    public ResponseEntity<Boolean> checkNickNameDuplicate(@RequestParam String nickName) {
+    public ResponseEntity<Boolean> checkNickNameDuplicate(@RequestParam String nickname) {
 
-        boolean result = userService.existsByNickName(nickName);
+        boolean result = userService.existsByNickname(nickname);
 
         return ResponseEntity.ok(result);
     }

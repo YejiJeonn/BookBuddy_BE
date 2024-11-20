@@ -43,14 +43,6 @@ public class ReadingTimeController {
             return new ResponseEntity<>("유효하지 않은 사용자", HttpStatus.UNAUTHORIZED);
         }
 
-//        // DB 테이블에서 해당 사용자 ID가 있는지 확인
-//        if (readingTimeService.isUserTableExists(user.getId())) {
-//            readingTimeService.saveReadingTime(user.getId(), request);
-//        } else {
-//            readingTimeService.createUserTable(user.getId());
-//            readingTimeService.saveReadingTime(user.getId(), request);
-//        }
-
         // request에서 유저 ID와 독서 시간을 가져와서 저장
         readingTimeService.saveReadingTime(id, userId, request);
 

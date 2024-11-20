@@ -11,7 +11,7 @@ public class CreateUserRequestDto {
     private String userId;
     @NotNull(message = "Password is Required")
     private String password;
-    private String nickName;
+    private String nickname;
     private String name;
     private String email;
     private Date birth;

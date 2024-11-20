@@ -32,7 +32,7 @@ public class UserService {
         user.setName(dto.getName());
         user.setBirth(dto.getBirth());
         user.setEmail(dto.getEmail());
-        user.setNickname(dto.getNickName());
+        user.setNickname(dto.getNickname());
 
         userRepository.save(user);
         //userRepository.save(user.toEntity(encoder.encode(user.getPw())));
@@ -72,7 +72,7 @@ public class UserService {
         return pw.equals(checkPassword);
     }
 
-    public boolean existsByNickName(String nickName) {
-        return userRepository.existsByNickname(nickName);
+    public boolean existsByNickname(String nickname) {
+        return userRepository.existsByNickname(nickname);
     }
 }
