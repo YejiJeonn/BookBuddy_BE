@@ -9,6 +9,8 @@ import com.project.backend.security.TokenProvider;
 import com.project.backend.service.PostService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -86,24 +88,61 @@ public class PostController {
     }
 
     // 게시글 수정
-    @PutMapping("/update/{id}")
-    public ResponseEntity<?> updatePost(@PathVariable Long id, @RequestBody PostRequestDto postDetails, HttpServletRequest httpServletRequest) {
+    @PutMapping("/update/{postId}")
+    public ResponseEntity<?> updatePost(@PathVariable Long postId, @RequestBody PostRequestDto postDetails, HttpServletRequest httpServletRequest) {
         // JWT 토큰 검증
         String token = httpServletRequest.getHeader("Authorization").substring(7);
         Long userId = tokenProvider.getSubject(token);
 
-        Post post = postRepository.findById(id).orElse(null);
+        // 게시글 찾기
+        Post post = postRepository.findById(postId).orElse(null);
         if (post == null) {
             return new ResponseEntity<>("게시글을 찾을 수 없습니다.", HttpStatus.NOT_FOUND);
         }
 
-        if (!post.getUserId().equals(userId.toString())) {
+        // 수정 권한 확인 (작성자와 요청자가 같은지 한번 더 비교)
+        if (!post.getNum().equals(userId)) {
             return new ResponseEntity<>("수정 권한이 없습니다.", HttpStatus.FORBIDDEN);
         }
 
+        // 게시글 업데이트
         post.updatePost(postDetails.getTitle(), postDetails.getContent());
         postRepository.save(post);
 
         return new ResponseEntity<>("게시글이 수정되었습니다.", HttpStatus.OK);
+    }
+
+    // 특정 게시글 상세 조회
+    @GetMapping("/detail/{postId}")
+    public ResponseEntity<Post> getPostDetails(@PathVariable Long postId) {
+        Post post = postRepository.findById(postId).orElse(null);
+        if (post == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(post, HttpStatus.OK);
+    }
+
+    // 게시글 미리보기
+    @GetMapping("/recent")
+    public ResponseEntity<List<Post>> getRecentPost(
+            @RequestParam(required = false, defaultValue = "5") int limit,
+            @RequestParam String isbn
+    ) {
+        try {
+            // 페이징 설정 : limit만큼 데이터 가져오기
+            Pageable pageable = PageRequest.of(0, limit);
+
+            // PostRepository에서 최신 글 가져오기
+            List<Post> posts = postService.getRecentPosts(isbn, pageable);
+
+            if (posts.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+
+            return new ResponseEntity<>(posts, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

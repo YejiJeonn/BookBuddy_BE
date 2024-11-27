@@ -26,8 +26,7 @@ public class Post {
 
     @Column(name = "create_at")
     @CreationTimestamp
-//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private LocalDate createAt;
+    private LocalDate createdAt;
 
     @Column(name = "title")
     private String title;

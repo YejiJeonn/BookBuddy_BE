@@ -10,5 +10,8 @@ public class LibraryRequestDto {
     private String nickname;
     private String title;
     private String isbn;
-    private String comment;
+    private String author;
+    private String publisher;
+    private String pubDate;
+    private String cover;
 }

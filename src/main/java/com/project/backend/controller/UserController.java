@@ -62,16 +62,6 @@ public class UserController {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-
-//        Optional<User> userEntity = userRepository.findById(id);
-//        if (userEntity.isPresent()) {
-//            User user = userEntity.get();
-//
-//            // 엔티티에서 DTO로 변환
-//            LoginUserRequestDto userDto = new LoginUserRequestDto(user.getUserId(), user.getPassword());
-//            return ResponseEntity.ok(userDto);
-//        }
-//        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
     // 아이디 중복 확인

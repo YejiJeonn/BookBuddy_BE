@@ -4,7 +4,10 @@ import com.project.backend.dto.PostRequestDto;
 import com.project.backend.entity.Post;
 import com.project.backend.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -19,6 +22,10 @@ public class PostService {
 
         System.out.println(post.getNickname());
         postRepository.save(post);
+    }
+
+    public List<Post> getRecentPosts(String isbn, Pageable pageable) {
+        return postRepository.findTopByIsbnOrderByCreateAtDesc(isbn, pageable);
     }
 
 }

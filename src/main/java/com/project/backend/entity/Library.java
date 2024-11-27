@@ -27,15 +27,27 @@ public class Library {
     @Column(name = "isbn")
     private String isbn;
 
-    @Column(name = "comment")
-    private String comment;
+    @Column(name = "author")
+    private String author;
 
-    public void setLibrary(Long num, String userId, String nickname, String title, String isbn, String comment) {
+    @Column(name = "publisher")
+    private String publisher;
+
+    @Column(name = "pub_date")
+    private String pubDate;
+
+    @Column(name = "cover")
+    private String cover;
+
+    public void setLibrary(Long num, String userId, String nickname, String title, String isbn, String author, String publisher, String pubDate, String cover) {
         this.num = num;
         this.userId = userId;
         this.nickname = nickname;
         this.title = title;
         this.isbn = isbn;
-        this.comment = comment;
+        this.author = author;
+        this.publisher = publisher;
+        this.pubDate = pubDate;
+        this.cover = cover;
     }
 }
