@@ -33,6 +33,15 @@ dependencies {
 
     implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.12.5'
 
+    // JJWT API
+    implementation 'io.jsonwebtoken:jjwt-api:0.12.5'
+
+    // JJWT Implementation
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.5'
+
+    // JJWT Jackson for JSON processing
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.5'
+
 }
 
 tasks.named('test') {

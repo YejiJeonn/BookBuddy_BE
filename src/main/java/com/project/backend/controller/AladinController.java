@@ -18,10 +18,9 @@ public class AladinController {
     public String getAladinProducts(
             @RequestParam String queryType,
             @RequestParam int maxResults,
-            @RequestParam int start) {
-
+            @RequestParam int start
+    ) {
         return aladinService.searchProducts(queryType, maxResults, start);
     }
-
-
+    
 }

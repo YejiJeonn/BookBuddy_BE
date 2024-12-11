@@ -38,6 +38,9 @@ public class ReadingTimeController {
         Long id = tokenProvider.getSubject(token);
         User user = userRepository.findUserById(id);
         String userId = user.getUserId();
+        System.out.println(token);
+        System.out.println("id == " + id);
+        System.out.println("userId == " + user.getUserId());
 
         if (user == null) {
             return new ResponseEntity<>("유효하지 않은 사용자", HttpStatus.UNAUTHORIZED);

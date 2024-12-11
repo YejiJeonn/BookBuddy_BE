@@ -19,7 +19,6 @@ public class SearchService {
 
         String url = String.format("http://www.aladin.co.kr/ttb/api/ItemSearch.aspx?ttbkey=%s&Query=%s&QueryType=Title&MaxResults=%d&start=%d&SearchTarget=Book&Cover=Big&output=JS&Version=20131101",
                 apiKey, query, maxResults, start);
-        System.out.println(url);
 
         // 알라딘 API에 GET 요청을 보냄
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);

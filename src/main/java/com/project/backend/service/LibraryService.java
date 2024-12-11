@@ -5,6 +5,7 @@ import com.project.backend.entity.Library;
 import com.project.backend.repository.LibraryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,6 +27,7 @@ public class LibraryService {
     }
 
     // 도서 삭제
+    @Transactional
     public void deleteBook(Long num, String isbn) {
         libraryRepository.deleteByIdAndIsbn(num, isbn);
     }

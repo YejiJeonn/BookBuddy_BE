@@ -43,12 +43,18 @@ public class MyLibraryController {
             return new ResponseEntity<>("유효하지 않은 사용자", HttpStatus.UNAUTHORIZED);
         }
 
+        // 중복 여부 확인
+        Optional<Library> existingBook = libraryService.checkBooks(id, request.getIsbn());
+        if (existingBook.isPresent()) {
+            return new ResponseEntity<>("이미 내 서재에 추가된 도서입니다.", HttpStatus.CONFLICT);
+        }
+
         libraryService.saveBook(id, request);
 
         return new ResponseEntity<>("내 서재에 저장되었습니다.", HttpStatus.OK);
     }
 
-    @GetMapping("/delete/{isbn}")
+    @DeleteMapping("/delete/{isbn}")
     public ResponseEntity<?> deleteBook(@PathVariable String isbn, HttpServletRequest httpServletRequest) {
         // JWT 토큰 검증
         String token = httpServletRequest.getHeader("Authorization").substring(7);
